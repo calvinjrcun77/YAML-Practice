@@ -1,0 +1,60 @@
+#Comment here
+microservices:
+  - app: user-authentication
+    port: 9000
+    version: 1.7
+    deployed: true
+  - app: shopping-cart
+    port: 9002
+    versions: [1.9, 2.0, 2.1]
+    - 1.9
+    - 2.0
+    - 2.1
+
+
+microservices: 
+  - user-authentication
+  - shopping-cart
+
+#key-value pairs
+apiVersion: v1
+kind: Pod
+#metadata contains object
+metadata:
+  name: nginx
+  labels: 
+    app: nginx
+#spec contains object
+spec:
+#containers contains list of objects
+  containers:
+  - name: nginx-container
+    image: nginx
+#ports contains list
+    ports:
+    - containerPort: 80
+#volumeMount contains list of objects
+    volumeMounts:
+    - name: nginx-vol
+      mountPath: /usr/nginx/html
+  - name: sidecar-container
+    image: curlimages/curl
+    command: ["/bin/sh"]
+#args contains list
+    args: ["-c","hello me; sleep 300"]
+
+#Multilinestring contains many lines
+multilineString: |
+  this is a multiline string.
+  more lines.
+  ,"hello
+  to read as a single line use ">"
+
+#env variable
+$<plus the name>
+
+#place holder
+{{  .Values.service.name        }}
+
+#multiple yaml documents in one
+--- is used to seperate them
